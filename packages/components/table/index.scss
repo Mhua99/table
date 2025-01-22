@@ -1,0 +1,51 @@
+.m-table {
+  &-card {
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+    border: 1px solid #dcdfe6;
+  }
+  &-Btn {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  &-btn-green {
+    color: #02b7a1;
+    &:not(:disabled):hover {
+      color: #50d2c1;
+    }
+  }
+}
+
+.m-table-dialog {
+  padding: 20px;
+
+  .ant-modal-content {
+    padding: 0 !important;
+
+    .ant-modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e8e8e8;
+      margin-bottom: 0;
+    }
+
+    .ant-modal-body {
+      overflow: hidden auto !important;
+      padding-top: 10px;
+      padding: 20px;
+    }
+
+    .ant-modal-footer {
+      >div {
+        padding: 10px 20px !important;
+      }
+    }
+  }
+}
+
+.checkboxGroup-settings {
+  display: flex;
+  flex-direction: column;
+  >.ant-checkbox-group-item {
+    padding: 0 10px 10px 10px;
+  }
+}

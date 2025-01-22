@@ -1,0 +1,72 @@
+{
+  "name": "@mhua/table",
+  "type": "module",
+  "version": "1.0.20",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/index.es.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "css": "./dist/table.css"
+    },
+    "./dist/table.css": "./dist/table.css"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.es.d.ts",
+  "files": [
+    "dist",
+    "readme.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build && powershell -Command \"Copy-Item -Path packages/types -Destination dist/types -Recurse -Force\"",
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@mhua/table": "^1.0.16",
+    "ant-design-vue": "^4.2.6"
+  },
+  "devDependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@antfu/eslint-config": "^3.12.0",
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "axios": "^1.7.9",
+    "dayjs": "1.11.13",
+    "eslint": "^9.17.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "mockjs": "^1.1.0",
+    "sass": "^1.83.0",
+    "typescript": "^5.7.2",
+    "unplugin-vue-components": "^0.28.0",
+    "vite": "^6.0.6",
+    "vite-plugin-dts": "^4.4.0",
+    "vite-plugin-mock": "^3.0.2",
+    "vite-plugin-pages": "^0.32.4",
+    "vitepress": "^1.5.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue-tsc": "^2.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "stylelint --fix"
+    ]
+  }
+}

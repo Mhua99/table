@@ -1,0 +1,10 @@
+.m-form-content :global(.ant-input[disabled]),
+.m-form-content :global(.ant-select-disabled .ant-select-selector),
+.m-form-content :global(.ant-input-number-disabled),
+.m-form-content :global(input[disabled]),
+.m-form-content :global(.ant-checkbox-disabled+span),
+.m-form-content :global(.ant-picker.ant-picker-disabled){
+  background-color: #fbfbfb !important;
+  color: #6a6a6a !important;
+}
+

@@ -1,0 +1,51 @@
+.full-modal {
+  .ant-modal {
+    min-width: 100%;
+    height: 100%;
+    top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh);
+  }
+
+  .ant-modal-body {
+    flex: 1;
+  }
+
+  .ant-modal-title {
+    line-height: 2;
+  }
+}
+
+.m-modal {
+  .ant-modal {
+    max-width: 100%;
+    >div:first-child {
+      height: 100%;
+
+      .ant-modal-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 10px 0px 20px;
+
+        .ant-modal-body {
+          height: calc(100% - 64px);
+          overflow: auto;
+        }
+
+        .ant-modal-footer {
+          >div {
+            padding: 10px 0;
+            border-top: 1px solid #dfdfdf;
+          }
+        }
+      }
+    }
+  }
+}
