@@ -9,6 +9,7 @@ export default antfu({
     'dist/**',
     '*.md',
     '*.yaml',
+    'docs/**',
   ],
   rules: {
     'no-console': 'off', // 允许console

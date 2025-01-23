@@ -98,6 +98,42 @@ export const tableOption: TableOption<FormData> = {
       // dataType: 'string',
     },
     {
+      label: '班级',
+      prop: 'class11',
+      type: 'select',
+      dicData: [
+        {
+          label: '1班',
+          value: 1,
+        },
+        {
+          label: '2班',
+          value: 2,
+        },
+        {
+          label: '3班',
+          value: 3,
+        },
+        {
+          label: '4班',
+          value: 4,
+        },
+        {
+          label: '5班',
+          value: 5,
+        },
+        {
+          label: '6班',
+          value: 6,
+        },
+      ],
+      search: true,
+      rules: [
+        { required: true, message: '请输入班级' },
+      ],
+      // dataType: 'string',
+    },
+    {
       label: '出生日期',
       prop: 'bridthday',
       type: 'date',

@@ -29,7 +29,8 @@
     "fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "prepare": "husky && node scripts/husky"
   },
   "dependencies": {
     "@mhua/table": "^1.0.16",
@@ -46,7 +47,7 @@
     "eslint": "^9.17.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
+    "lint-staged": "^15.3.0",
     "mockjs": "^1.1.0",
     "sass": "^1.83.0",
     "typescript": "^5.7.2",

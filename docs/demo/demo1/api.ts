@@ -1,6 +1,6 @@
 const list = Array.from({ length: 89 }).map((item, index) => {
   return {
-    id: index + 1 + "",
+    id: `${index + 1}`,
     name: `name${index + 1}`,
     age: index + 1,
     class: index + 1,
@@ -10,7 +10,7 @@ const list = Array.from({ length: 89 }).map((item, index) => {
     interest: '1,2',
     remark: 'remark',
   }
-})
+});
 
 export interface FormData {
   id?: string
@@ -24,7 +24,7 @@ export interface FormData {
   remark?: string
 }
 
-export function getList(params: FormData & { current: number; pageSize: number }) {
+export function getList(params: FormData & { current: number, pageSize: number }) {
   const { current = 1, pageSize = 10 } = params;
   const start = ((current - 1) * Number(pageSize))
   const end = start + Number(pageSize)
@@ -34,23 +34,23 @@ export function getList(params: FormData & { current: number; pageSize: number }
       resolve({
         code: 0,
         data: newList,
-        total: list.length
+        total: list.length,
       })
     }, 1000)
-  })
+  });
 }
 
 export function create(data: Required<FormData>) {
   const maxId = Math.max(...list.map(item => Number(item.id))) || 0;
-  list.unshift({ ...data, id: maxId + 1 + "" })
+  list.unshift({ ...data, id: `${maxId + 1}` })
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         code: 0,
-        data: data,
+        data,
       })
     }, 1000)
-  })
+  });
 }
 
 export function update(data: Required<FormData>) {
@@ -60,10 +60,10 @@ export function update(data: Required<FormData>) {
     setTimeout(() => {
       resolve({
         code: 0,
-        data: data,
+        data,
       })
     }, 1000)
-  })
+  });
 }
 
 export function remove(id: FormData['id']) {
@@ -76,5 +76,5 @@ export function remove(id: FormData['id']) {
         data: id,
       })
     }, 1000)
-  })
+  });
 }

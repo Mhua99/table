@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { create, getList, remove, update } from './api';
+import { Table, useTable } from '@mhua/table';
 import { Button } from 'ant-design-vue';
 
-import { Table } from '@mhua/table';
-import { useTable } from '@mhua/table'
+import { create, getList, remove, update } from './api'
 import { tableOption } from './option'
 
 const { getDataList, valBind, tableRef, collection } = useTable({
@@ -49,7 +48,9 @@ function handleClick() {
       <div>cs11</div>
     </template>
     <template #dialogFooter="data">
-      <Button @click="data">111111</Button>
+      <Button @click="data">
+        111111
+      </Button>
     </template>
   </Table>
 </template>

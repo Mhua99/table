@@ -1,5 +1,5 @@
-import { type TableOption } from "@mhua/table"
-import { type FormData } from "../../../src/api/table"
+import type { TableOption } from '@mhua/table';
+import type { FormData } from '../../../src/api/table';
 
 export const tableOption: TableOption<FormData> = {
   // /** 表单文字宽度 */
@@ -59,7 +59,7 @@ export const tableOption: TableOption<FormData> = {
       hide: true,
       viewDisplay: false,
       // addDisabled: true,
-      editDisabled: true
+      editDisabled: true,
     },
     {
       label: '班级',
@@ -105,7 +105,7 @@ export const tableOption: TableOption<FormData> = {
       rules: [
         { required: true, message: '请输入出生日期' },
       ],
-      sort: 1
+      sort: 1,
     },
     {
       label: '名字11',
@@ -116,7 +116,7 @@ export const tableOption: TableOption<FormData> = {
       label: '名字22',
       prop: 'montherName',
       search: true,
-      sort: 2
+      sort: 2,
     },
     {
       label: '兴趣爱好',
@@ -126,22 +126,22 @@ export const tableOption: TableOption<FormData> = {
       dicData: [
         {
           value: 1,
-          label: "篮球"
+          label: '篮球',
         },
         {
           value: 2,
-          label: "足球"
+          label: '足球',
         },
         {
           value: 3,
-          label: "羽毛球"
+          label: '羽毛球',
         },
         {
           value: 4,
-          label: "跑步"
+          label: '跑步',
         },
       ],
-      sort: 6
+      sort: 6,
     },
     {
       label: '备注',
@@ -149,7 +149,7 @@ export const tableOption: TableOption<FormData> = {
       type: 'textarea',
       span: 24,
       hide: true,
-      editDisplay: false
+      editDisplay: false,
     },
   ],
 }

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { create, getList, remove, update } from '@/api/table';
+import { Button, ConfigProvider } from 'ant-design-vue'
 
-import { Button, ConfigProvider } from 'ant-design-vue';
-import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { watch } from 'vue'
+import { create, getList, remove, update } from '@/api/table'
 import { Table } from '~/components';
 import { useTable } from '~/hook/useTable'
 import { tableOption } from './option'

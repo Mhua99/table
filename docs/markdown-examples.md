@@ -1,14 +1,14 @@
 ## 表格组件
 案例
-<iframe src="/demo.html" width="100%" height="1200px" frameborder="0"></iframe>
+<iframe src="/table/demo.html" width="100%" height="900px" frameborder="0"></iframe>
 
 表格代码如下：
 ```vue
 <script lang="ts" setup>
-import { create, getList, remove, update } from './api';
-import { Button } from 'ant-design-vue';
+import { Table, useTable } from '@mhua/table'
+import { Button } from 'ant-design-vue'
 
-import { Table, useTable } from '@mhua/table';
+import { create, getList, remove, update } from './api'
 import { tableOption } from './option'
 
 const { getDataList, valBind, tableRef, collection } = useTable({
@@ -29,41 +29,43 @@ function handleClick() {
 </script>
 
 <template>
-<Table v-bind="valBind">
-  <template #menuLeft>
-    <Button @click="handleClick">
-      新增按钮
-    </Button>
-  </template>
-  <template #menuRight>
-    <span style="color: red;">右侧插槽</span>
-  </template>
-  <template #name="{ record }">
-    <span>{{ `${record.age}岁 - ${record.name}` }}</span>
-  </template>
-  <template #nameForm>
-    <span>{{ valBind.modelValue.name }}</span>
-  </template>
-  <template #nameSearch>
-    <div>搜索</div>
-  </template>
-  <template #nameSearchLabel>
-    <div>9999</div>
-  </template>
-  <template #nameFormLabel>
-    <div>cs11</div>
-  </template>
-  <template #dialogFooter="data">
-    <Button @click="data">111111</Button>
-  </template>
-</Table>
+  <Table v-bind="valBind">
+    <template #menuLeft>
+      <Button @click="handleClick">
+        新增按钮
+      </Button>
+    </template>
+    <template #menuRight>
+      <span style="color: red;">右侧插槽</span>
+    </template>
+    <template #name="{ record }">
+      <span>{{ `${record.age}岁 - ${record.name}` }}</span>
+    </template>
+    <template #nameForm>
+      <span>{{ valBind.modelValue.name }}</span>
+    </template>
+    <template #nameSearch>
+      <div>搜索</div>
+    </template>
+    <template #nameSearchLabel>
+      <div>9999</div>
+    </template>
+    <template #nameFormLabel>
+      <div>cs11</div>
+    </template>
+    <template #dialogFooter="data">
+      <Button @click="data">
+        111111
+      </Button>
+    </template>
+  </Table>
 </template>
 ```
 
 option配置项
 
 ```typescript
-import { type TableOption } from "@mhua/table"
+import type { TableOption } from '@mhua/table';
 
 export interface FormData {
   id?: string
@@ -202,19 +204,19 @@ export const tableOption: TableOption<FormData> = {
       dicData: [
         {
           id: 1,
-          name: "篮球"
+          name: '篮球'
         },
         {
           id: 2,
-          name: "足球"
+          name: '足球'
         },
         {
           id: 3,
-          name: "羽毛球"
+          name: '羽毛球'
         },
         {
           id: 4,
-          name: "跑步"
+          name: '跑步'
         },
       ],
       // dicUrl: '/api/getDicNew',
@@ -240,12 +242,11 @@ export const tableOption: TableOption<FormData> = {
 }
 ```
 
-
 ### props 属性
 | 属性        | 类型     |  默认值  | 说明 |
 | --------   | -----:     | :----: | :----: |
 | v-model    | object     |   无   | 表单数据 |
-| Option     |  object     |   无   |  配置项  |
+| option     |  object     |   无   |  配置项  |
 | v-model:searchForm   | object  |   无   |  搜索数据  |
 | loading   | boolean  |   false   |  加载动画  |
 | pagination   | object  |   无   |  antd pagination 分页组件属性  |

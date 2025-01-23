@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/table/',
   title: '@mhua/table的文档网站',
   description: '一个基于ant-design-vue封装的 vue3 表格组件',
   themeConfig: {
@@ -17,15 +18,14 @@ export default defineConfig({
         text: '文档',
         items: [
           { text: 'table', link: '/markdown-examples' },
-          // { text: 'Runtime API Examples', link: '/markdown-examples' },
         ],
       },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'github', link: 'https://github.com/Mhua99/table' },
     ],
-    aside: false
+    aside: false,
   },
   markdown: {
     theme: {
