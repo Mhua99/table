@@ -3,8 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Mhua99",
   "license": "ISC",
+  "repository": "https://github.com/Mhua99/table",
   "keywords": [],
   "exports": {
     ".": {
@@ -22,6 +23,10 @@
     "dist",
     "readme.md"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build && powershell -Command \"Copy-Item -Path packages/types -Destination dist/types -Recurse -Force\"",
