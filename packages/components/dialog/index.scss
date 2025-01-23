@@ -25,25 +25,46 @@
 .m-modal {
   .ant-modal {
     max-width: 100%;
+
     >div:first-child {
       height: 100%;
+
+      .ant-modal-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #e8e8e8;
+        margin-bottom: 0;
+      }
 
       .ant-modal-content {
         height: 100%;
         display: flex;
         flex-direction: column;
-        padding: 20px 10px 0px 20px;
+        padding: 0 !important;
 
         .ant-modal-body {
           height: calc(100% - 64px);
-          overflow: auto;
+          overflow: hidden auto !important;
+          padding-top: 10px;
+          padding: 20px;
         }
 
         .ant-modal-footer {
           >div {
-            padding: 10px 0;
+            padding: 10px 20px !important;
             border-top: 1px solid #dfdfdf;
           }
+        }
+      }
+    }
+  }
+
+  &.drag-modal {
+    .ant-modal {
+      margin: unset;
+      padding-bottom: 0;
+      .ant-modal-content {
+        .ant-modal-header {
+          cursor: pointer;
         }
       }
     }

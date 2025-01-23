@@ -54,8 +54,18 @@ export const props = {
     type: String,
     default: '10vh',
   },
+  /** 加载 */
   loading: {
     type: Boolean as PropType<boolean>,
-    default: true,
+    default: false,
+  },
+  /** 是否拖动 */
+  isDrag: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+  /** 弹窗高度 */
+  height: {
+    type: String as PropType<string>,
   },
 }

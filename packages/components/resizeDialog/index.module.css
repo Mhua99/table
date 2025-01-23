@@ -1,0 +1,26 @@
+.m-resize-dialog :global(.ant-modal-close) {
+  width: 50px;
+}
+
+.m-resize-dialog :global(.ant-modal-close-x){
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-resize-dialog :global(.ant-modal-title){
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-resize-dialog .icon {
+  font-weight: 400;
+  color: rgb(155,155,155);
+}
+
+.m-resize-dialog .icon:last-child {
+  margin-left: 10px;
+}
+
+.m-resize-dialog .icon:hover {
+  color: unset;
+}

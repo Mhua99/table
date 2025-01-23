@@ -6,9 +6,10 @@ import Form from './form';
 import Input from './input';
 import InputNumber from './inputNumber';
 import Radio from './radio';
-import Select from './select';
-import Table from './table';
-import Textarea from './textarea';
+import ResizeDialog from './resizeDialog'
+import Select from './select'
+import Table from './table'
+import Textarea from './textarea'
 
 export {
   Cascader,
@@ -19,7 +20,8 @@ export {
   Input,
   InputNumber,
   Radio,
+  ResizeDialog,
   Select,
   Table,
   Textarea,
-}
+};
