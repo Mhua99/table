@@ -3,41 +3,96 @@ import { computed, defineComponent, Fragment, ref, watch } from 'vue'
 
 import { extractKeyFormObject } from '~/utils/object';
 import MDialog from '../dialog';
-import styles from './index.module.css'
+import { useInjectDialogContext } from '../resizeDialogGroup/useDialogContext'
+import styles from './index.module.css';
 
 export default defineComponent({
   name: 'MResizeDialog',
   props: {
     modelValue: {
       type: Boolean,
-      default: false,
     },
     height: {
       type: String,
       default: '300px',
     },
+    uniqueKey: {
+      type: String,
+    },
+    beforeClose: {
+      type: Function,
+    },
   },
   emits: ['update:modelValue'],
   inheritAttrs: false,
   setup(props, { attrs, emit, slots }) {
-    const dialogRef = ref()
     const { includeRet, excludeRet } = extractKeyFormObject(attrs, 'title');
+    const { collectionVisible, getData, which, collectionDialogList, dialogList } = useInjectDialogContext();
+
+    if (props.uniqueKey) {
+      collectionVisible(false, props.uniqueKey);
+      collectionDialogList(props.uniqueKey, false, false, attrs)
+    }
 
     const modelValue = computed({
       get() {
-        return props.modelValue;
+        return props.modelValue || getData(props.uniqueKey!);
       },
       set(val) {
-        emit('update:modelValue', val)
+        if (props.uniqueKey)
+          collectionVisible(val, props.uniqueKey);
+        else
+          emit('update:modelValue', val)
       },
     })
-    const test = ref(true);
 
-    watch(() => props.modelValue, (val) => {
-      if (val) {
-        test.value = true
+    const domVisible = ref(false);
+
+    function whichEmit() {
+      if (!props.uniqueKey)
+        return;
+
+      which(props.uniqueKey, modelValue.value, domVisible.value, attrs)
+    }
+
+    watch(() => modelValue.value, (val) => {
+      if (val && !domVisible.value) {
+        domVisible.value = true
       }
+
+      val && whichEmit()
     });
+
+    /** 把元素从dom中移除 */
+    function deepHideEvent() {
+      function done() {
+        modelValue.value = false;
+        setTimeout(() => {
+          domVisible.value = false;
+          whichEmit()
+        }, 100);
+      }
+
+      if (props.beforeClose) {
+        props.beforeClose?.(done)
+      }
+      else {
+        done();
+      }
+    }
+
+    function hideEvent() {
+      modelValue.value = false;
+      whichEmit()
+    }
+
+    function handleClick() {
+      dialogList.forEach(item => item.zIndex = 998);
+      const index = dialogList.findIndex(item => item.uniqueKey === props.uniqueKey);
+      if (index > -1) {
+        dialogList[index].zIndex = 999
+      }
+    }
 
     return () => {
       const newSlots = {
@@ -47,18 +102,13 @@ export default defineComponent({
             <span>
               <i
                 class={styles.icon}
-                onClick={() => {
-                  modelValue.value = false;
-                }}
+                onClick={hideEvent}
               >
                 <MinusOutlined />
               </i>
               <i
                 class={styles.icon}
-                onClick={() => {
-                  modelValue.value = false;
-                  test.value = false;
-                }}
+                onClick={deepHideEvent}
               >
                 <CloseOutlined />
               </i>
@@ -67,8 +117,9 @@ export default defineComponent({
         ),
         ...slots,
       };
+      const row = dialogList.find(item => item.uniqueKey === props.uniqueKey) || { zIndex: 999 };
       return (
-        test.value && <MDialog ref={dialogRef} class={styles['m-resize-dialog']} mask={false} keyboard={false} maskClosable={false} isDrag={true} width="400px" height={props.height} {...excludeRet} v-model={modelValue.value} v-slots={newSlots} />
+        domVisible.value && <MDialog zIndex={row.zIndex} closable={false} class={styles['m-resize-dialog']} mask={false} keyboard={false} maskClosable={false} isDrag={true} width="400px" height={props.height} {...excludeRet} onClick={handleClick} v-model={modelValue.value} v-slots={newSlots} />
       )
     }
   },

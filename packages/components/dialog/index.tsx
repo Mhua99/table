@@ -1,6 +1,7 @@
+import type { CSSProperties } from 'vue';
 import type { AttrsType } from '~/types'
 
-import { Button, Modal } from 'ant-design-vue'
+import { Button, Modal } from 'ant-design-vue';
 import { defineComponent, nextTick, ref, watch } from 'vue';
 
 import { props } from '~/const/dialog';
@@ -9,7 +10,7 @@ import './index.scss'
 export default defineComponent({
   name: 'Dialog',
   props,
-  emits: ['update:modelValue', 'confirm'],
+  emits: ['update:modelValue', 'confirm', 'click'],
   setup(props, { attrs, emit, slots, expose }) {
     const dialogRef = ref<InstanceType<typeof Modal> | null>(null);
     const { onCancel: cancel, top, bottom, width, fullscreen } = props;
@@ -19,7 +20,7 @@ export default defineComponent({
     const onConfirm = () => emit('confirm', () => { emit('update:modelValue', false) });
     const onCancel = cancel || (() => emit('update:modelValue', false))
 
-    const style: AttrsType = { top, bottom, width, height: props.height || `calc(100vh - ${top} - ${bottom})` }
+    const style: CSSProperties = { top, bottom, width, height: props.height || `calc(100vh - ${top} - ${bottom})` }
 
     if (props.fullscreen) {
       wrapClassName.push('full-modal');
@@ -47,6 +48,9 @@ export default defineComponent({
     )
 
     let dragStart: (e: MouseEvent) => void;
+    function clickEvent() {
+      emit('click')
+    } ;
 
     watch(() => props.modelValue, async (val) => {
       if (!props.isDrag)
@@ -58,8 +62,8 @@ export default defineComponent({
         const headerHtml = dialogHtml?.querySelector('.ant-modal-header');
         const left = document.body.clientWidth / 2 - (dialogHtml?.clientWidth || 0) / 2
         !dialogHtml?.style?.left && (dialogHtml.style.left = `${left}px`)
-
         if (dialogHtml) {
+          /** 鼠标点击事件 */
           dragStart = (e: MouseEvent) => {
             const offsetX = e.clientX - dialogHtml.offsetLeft
             const offsetY = e.clientY - dialogHtml.offsetTop
@@ -70,6 +74,7 @@ export default defineComponent({
               const newTop = Math.max(0, Math.min(e.clientY - offsetY, maxY));
               dialogHtml.style.left = `${newLeft}px`;
               dialogHtml.style.top = `${newTop}px`;
+              (bindAttrs.style as CSSProperties).top && ((bindAttrs.style as CSSProperties).top = `${newTop}px`);
             };
 
             const mouseUpHandler = () => {
@@ -82,12 +87,14 @@ export default defineComponent({
           };
 
           headerHtml?.addEventListener('mousedown', dragStart as EventListener);
+          dialogHtml.addEventListener('click', clickEvent)
         }
       }
       else {
         const dialogHtml = document.querySelector(`.${keyId}`)?.querySelector('.ant-modal') as HTMLDivElement;
         const headerHtml = dialogHtml?.querySelector('.ant-modal-header');
         headerHtml?.removeEventListener('mousedown', dragStart as EventListener);
+        dialogHtml?.removeEventListener('click', clickEvent)
       }
     }, {
       immediate: true,

@@ -59,6 +59,8 @@
   }
 
   &.drag-modal {
+    height: 0;
+    overflow: unset;
     .ant-modal {
       margin: unset;
       padding-bottom: 0;
