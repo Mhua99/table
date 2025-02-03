@@ -1,22 +1,23 @@
 import dayjs from 'dayjs';
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
-import Table from '~/install'
-import App from './App.vue'
-import router from './router/index'
-import 'dayjs/locale/zh-cn'
+import Table from '~/install';
+import App from './App.vue';
+import router from './router/index';
+import 'dayjs/locale/zh-cn';
+import '@mhua/table/dist/table.css';
 
-dayjs.locale('zh-cn')
+dayjs.locale('zh-cn');
 
 Table.collection({
   hookUseTableSettings: {
     resFormatter(res) {
-      return res.data
+      return res.data;
     },
     totalFormatter(res) {
-      return res.total
+      return res.total;
     },
   },
-})
+});
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).mount('#app');

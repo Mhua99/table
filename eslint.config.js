@@ -1,4 +1,4 @@
-import antfu from '@antfu/eslint-config'
+import antfu from '@antfu/eslint-config';
 
 export default antfu({
   vue: true,
@@ -26,6 +26,7 @@ export default antfu({
     ],
     'n/prefer-global/process': 'off',
     'semi': [2, 'always'], // 语句强制分号结尾
+    'style/semi': 'off',
   },
   settings: {
     'import/resolver': {
@@ -35,4 +36,4 @@ export default antfu({
       },
     },
   },
-})
+});

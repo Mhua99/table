@@ -1,9 +1,9 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 import { viteMockServe } from 'vite-plugin-mock';
 import Pages from 'vite-plugin-pages';
 
@@ -19,6 +19,7 @@ export default defineConfig({
       outDir: 'dist',
       staticImport: true,
       insertTypesEntry: true,
+      tsconfigPath: './tsconfig.build.json',
     }),
     vue(),
     vueJsx(),
@@ -49,4 +50,4 @@ export default defineConfig({
       },
     },
   },
-})
+});
