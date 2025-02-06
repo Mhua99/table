@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { Button, ConfigProvider } from 'ant-design-vue'
+import { Button, ConfigProvider } from 'ant-design-vue';
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import { watch } from 'vue';
 
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import { watch } from 'vue'
-import { create, getList, remove, update } from '@/api/table'
+import { create, getList, remove, update } from '@/api/table';
+
 import { Table } from '~/components';
-import { useTable } from '~/hook/useTable'
-import { tableOption } from './option'
+import { useTable } from '~/hook/useTable';
+import { tableOption } from './option';
 
 const { getDataList, valBind, tableRef, collection, formData } = useTable({
   tableOption,
@@ -16,9 +17,7 @@ const { getDataList, valBind, tableRef, collection, formData } = useTable({
   remove,
   queryForm: {},
   searchForm: {},
-})
-
-valBind.value.option
+});
 
 // function test() {
 //   return new Promise((resolve) => {
@@ -43,9 +42,9 @@ valBind.value.option
 
 getDataList();
 
-watch(() => valBind.value.modelValue, (val) => { console.log(val) }, {
+watch(() => valBind.value.modelValue, (val) => { console.log(val); }, {
   deep: true,
-})
+});
 
 function handleClick() {
   tableRef.value?.rowAdd({ name: 'ninhao' });

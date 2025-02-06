@@ -1,10 +1,10 @@
-import { FontSizeOutlined, PlusOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons-vue'
-import { Button, Card, Dropdown, Popover, Space, Table } from 'ant-design-vue'
-import { defineComponent, Fragment, h } from 'vue'
+import { FontSizeOutlined, PlusOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import { Button, Card, Dropdown, Popover, Space, Table } from 'ant-design-vue';
+import { defineComponent, Fragment, h } from 'vue';
 
 import { emits, pagination, props } from '~/const/table';
-import Dialog from '../dialog'
-import Form from '../form'
+import Dialog from '../dialog';
+import Form from '../form';
 import Search from '../search';
 import { useTable } from './useTable';
 import './index.scss';
@@ -32,12 +32,15 @@ export default defineComponent({
       pageSizeChange,
       getMenu,
       getColumnSettings,
+      onSelectChange,
     } = useTable(props, context);
 
     return () => {
       const columns = tableOption.column.filter(item => !item.colHide).sort((pre, next) => (next.sort || 0) - (pre.sort || 0));
       const scrollX = tableOption.tableX || columns.reduce((sum, col) => sum + (col.width || 100), 0);
       const isShowSubmit = tableOption.submitBtn && state.formType !== 'view';
+      const otherAttrs = tableOption.selection ? { rowSelection: { selectedRowKeys: props.selectedRowKeys, onChange: onSelectChange } } : {};
+      const newData = props.data.map(item => ({ ...item, key: item[tableOption.rowKey || 'id'] }));
 
       function renderTable() {
         return (
@@ -80,9 +83,9 @@ export default defineComponent({
                 </Space>
               </div>
             </div>
-            <Table scroll={{ x: scrollX, y: tableOption.height }} size={state.selectedKeys[0]} dataSource={props.data} loading={props.loading} columns={columns} pagination={Object.assign({}, pagination, props.pagination, { onChange: pageSizeChange })} bordered v-slots={allSlots.table}></Table>
+            <Table {...otherAttrs} scroll={{ x: scrollX, y: tableOption.height }} size={state.selectedKeys[0]} dataSource={newData} loading={props.loading} columns={columns} pagination={Object.assign({}, pagination, props.pagination, { onChange: pageSizeChange })} bordered v-slots={allSlots.table}></Table>
           </Fragment>
-        )
+        );
       }
 
       return (
@@ -98,7 +101,7 @@ export default defineComponent({
             <Form modelValue={props.modelValue} formType={state.formType} onUpdate:modelValue={updateForm} ref={formRef} option={formOption.value} v-slots={allSlots.form} />
           </Dialog>
         </div>
-      )
+      );
     };
   },
-})
+});

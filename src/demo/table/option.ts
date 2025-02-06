@@ -1,7 +1,8 @@
-import type { FormData } from '@/api/table'
+import type { FormData } from '@/api/table';
 import type { TableOption } from '~/types';
 
 export const tableOption: TableOption<FormData> = {
+  keyId: 'id',
   // /** 表单文字宽度 */
   // labelWidth: '100px',
   // /** 提交按钮 */
@@ -39,6 +40,7 @@ export const tableOption: TableOption<FormData> = {
   // emptyBtn: false,
   // viewBtn: true,
   // viewBtnText: "我是查看",
+  selection: true,
   column: [
     {
       label: '名字',
@@ -131,6 +133,7 @@ export const tableOption: TableOption<FormData> = {
       rules: [
         { required: true, message: '请输入班级' },
       ],
+      hide: true,
       // dataType: 'string',
     },
     {
@@ -179,4 +182,4 @@ export const tableOption: TableOption<FormData> = {
       hide: true,
     },
   ],
-}
+};

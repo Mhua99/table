@@ -1,17 +1,19 @@
-import type { ExtractPropTypes, SetupContext, Slot } from 'vue'
+import type { ExtractPropTypes, SetupContext, Slot } from 'vue';
 import type { emits, props } from '~/const/table';
 import type { Column, CommObj, DicData, FormType } from '~/types';
 
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons-vue';
-import { Button, CheckboxGroup, Menu } from 'ant-design-vue'
-import { computed, createVNode, Fragment, h, reactive, ref, toRaw, toRef, watch } from 'vue'
+import { Button, CheckboxGroup, Menu } from 'ant-design-vue';
+import { computed, createVNode, Fragment, h, reactive, ref, toRaw, toRef, watch } from 'vue';
 
 import { dicFieldLabel } from '~/const/comm';
-import { baseOption, defaultMenuOption } from '~/const/table'
-import { requestFun } from '~/utils/fetch'
+import { baseOption, defaultMenuOption } from '~/const/table';
+import { requestFun } from '~/utils/fetch';
 import { dataTypeTransform } from '~/utils/form';
 
 type Props = Partial<ExtractPropTypes<typeof props>>
+
+type Key = string | number;
 
 interface State {
   visible: boolean
@@ -41,7 +43,7 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
   /** 搜索实例 */
   const searchRef = ref();
   /** 字典项 */
-  const dicAll: Record<string, DicData[]> = {}
+  const dicAll: Record<string, DicData[]> = {};
 
   const state = reactive<State>({
     visible: false,
@@ -50,18 +52,18 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     submitLoading: false,
     selectedKeys: ['middle'],
     colmunSelectKeys: [],
-  })
+  });
 
   /** 分页数据 */
   const pageAbout = {
     page: 1,
     pageSize: 10,
-  }
+  };
 
   /** 搜索表单数据 */
   const searchForm = computed({
     get() {
-      return props.searchForm || {}
+      return props.searchForm || {};
     },
     set(val) {
       emit('update:searchForm', val);
@@ -74,7 +76,7 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     ...baseOption,
     ...props.option,
     footerBtn: false,
-  })
+  });
 
   /** 刷新 */
   function refresh() {
@@ -83,59 +85,59 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
 
   /** 新增 */
   function rowAdd(formData: CommObj = {}) {
-    state.formType = 'add'
+    state.formType = 'add';
     state.title = tableOption.addTitle || '新增';
     function setFormData() {
       if (Object.keys(formData)?.length) {
-        updateForm(formData)
+        updateForm(formData);
       }
       else {
-        const modelValue = formRef.value?.initForm || {}
-        updateForm({ ...modelValue })
+        const modelValue = formRef.value?.initForm || {};
+        updateForm({ ...modelValue });
       }
     }
 
     if (props.beforeOpen) {
       props.beforeOpen(state.formType, () => {
-        state.visible = true
+        state.visible = true;
         setFormData();
-      })
+      });
     }
     else {
-      state.visible = true
+      state.visible = true;
       setFormData();
     }
   }
 
   /** 编辑 */
   function rowEdit(data: CommObj) {
-    state.formType = 'edit'
+    state.formType = 'edit';
     state.title = tableOption.editTitle || '编辑';
     if (props.beforeOpen) {
       props.beforeOpen(state.formType, () => {
-        state.visible = true
-        updateForm(toRaw({ ...data }))
+        state.visible = true;
+        updateForm(toRaw({ ...data }));
       });
     }
     else {
-      state.visible = true
-      updateForm(toRaw({ ...data }))
+      state.visible = true;
+      updateForm(toRaw({ ...data }));
     }
   }
 
   /** 查看 */
   function rowView(data: CommObj) {
-    state.formType = 'view'
+    state.formType = 'view';
     state.title = tableOption.viewTitle || '查看';
     if (props.beforeOpen) {
       props.beforeOpen(state.formType, () => {
-        state.visible = true
-        updateForm(toRaw({ ...data }))
+        state.visible = true;
+        updateForm(toRaw({ ...data }));
       });
     }
     else {
-      state.visible = true
-      updateForm(toRaw({ ...data }))
+      state.visible = true;
+      updateForm(toRaw({ ...data }));
     }
   }
 
@@ -159,17 +161,17 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
       bodyCell: (data: BodyCellData) => {
         function showLabel() {
           const { record, column } = data;
-          const value = record[`${data.column.dataIndex}`]
+          const value = record[`${data.column.dataIndex}`];
           const dicData = column.dicData || dicAll[column.prop] || [];
           if (column.type === 'checkbox' || column.multiple) {
-            const list = (value as string)?.split(',')?.map(str => dicData.find(item => String(item.value) === String(str))).filter(item => item) || []
-            return list?.map(item => item?.label).join(',')
+            const list = (value as string)?.split(',')?.map(str => dicData.find(item => String(item.value) === String(str))).filter(item => item) || [];
+            return list?.map(item => item?.label).join(',');
           }
           else {
             return dicData.find(item => String(item.value) === String(value))?.label || value;
           }
         }
-        const { page, pageSize } = pageAbout
+        const { page, pageSize } = pageAbout;
         return (
           [
             data.column.dataIndex === 'indexNum' && ((page - 1) * pageSize) + data.index + 1,
@@ -184,7 +186,7 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
             slots[data.column.dataIndex] && slots[data.column.dataIndex]?.(data),
             !slots[data.column.dataIndex] && dicFieldLabel.includes(data.column.type || '') && showLabel(),
           ]
-        )
+        );
       },
     },
     search: {
@@ -208,25 +210,25 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
           row: item,
         }));
         dicAll[item.prop] = row.dicData || [];
-      })
+      });
     }
   }
 
   /** 分类插槽 */
   function getSlots(prop: string | number) {
-    const searchKey = new RegExp(`^${prop}Search`)
-    const formKey = new RegExp(`^${prop}Form`)
+    const searchKey = new RegExp(`^${prop}Search`);
+    const formKey = new RegExp(`^${prop}Form`);
     Object.keys(slots).forEach((key) => {
       if (searchKey.test(key)) {
         if (slots[key]) {
-          const newProp = key.replace(`${prop}Search`, '') ? key.replace(`Search`, '') : prop
-          allSlots.search[newProp] = slots[key]
+          const newProp = key.replace(`${prop}Search`, '') ? key.replace(`Search`, '') : prop;
+          allSlots.search[newProp] = slots[key];
         }
       }
       else if (formKey.test(key)) {
-        const newProp = key.replace('Form', '')
+        const newProp = key.replace('Form', '');
         if (slots[key]) {
-          allSlots.form[newProp] = slots[key]
+          allSlots.form[newProp] = slots[key];
         }
       }
     });
@@ -242,13 +244,13 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
       dataIndex: item.prop,
       align: item.align || tableOption.align,
       colHide: item.hide || false,
-    }
+    };
 
     getSlots(item.prop);
     if (['select', 'radio', 'checkbox', 'cascader'].includes(item.type!)) {
       setDic(newItem);
     }
-    return newItem
+    return newItem;
   });
 
   if (tableOption.index) {
@@ -263,28 +265,28 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     } as Column<any>;
 
     if (tableOption.indexFixed)
-      indexColumn.fixed = tableOption.indexFixed
+      indexColumn.fixed = tableOption.indexFixed;
 
-    tableOption.column.unshift(indexColumn)
+    tableOption.column.unshift(indexColumn);
   }
 
   /** 是否显示菜单 */
   if (tableOption.menu) {
-    tableOption.column.push({ ...defaultMenuOption, width: tableOption.menuWidth })
+    tableOption.column.push({ ...defaultMenuOption, width: tableOption.menuWidth });
   }
 
   if (slots.dialogFooter) {
     allSlots.dialog.footer = slots.dialogFooter;
   }
 
-  state.colmunSelectKeys = tableOption.column.filter(item => !item.hide).map(item => item.prop) as string[]
+  state.colmunSelectKeys = tableOption.column.filter(item => !item.hide).map(item => item.prop) as string[];
 
   /** 用于遍历 */
   const formOption = computed(() => {
     return {
       ...tableOption,
       column: tableOption.column.filter(item => item.dataIndex !== 'operation'),
-    }
+    };
   });
 
   function emitsEvent(eventName: string, ...args: any) {
@@ -302,7 +304,7 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     formRef.value.validate((isValidate: boolean, form: CommObj) => {
       if (isValidate) {
         state.submitLoading = true;
-        const closeLoading = () => state.submitLoading = false
+        const closeLoading = () => state.submitLoading = false;
         emit('submit', toRaw(props.modelValue), closeLoading, done);
       }
     });
@@ -317,17 +319,21 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
   function pageSizeChange(page: number, pageSize: number) {
     pageAbout.page = page;
     pageAbout.pageSize = pageSize;
-    emit('pageSizeChange', page, pageSize)
+    emit('pageSizeChange', page, pageSize);
   }
 
   /** 弹窗关闭之后 */
   function afterClose() {
-    state.submitLoading = false
+    state.submitLoading = false;
   }
 
   function menuClick(val: { key: string }) {
-    state.selectedKeys = [val.key]
+    state.selectedKeys = [val.key];
   }
+
+  function onSelectChange(selectedRowKeys: Key[]) {
+    emit('selectChange', selectedRowKeys);
+  };
 
   const getMenu = () => (
     <Menu selected-keys={state.selectedKeys} onClick={menuClick}>
@@ -349,21 +355,21 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
         label: item.title,
         value: item.prop,
       };
-    })
+    });
     return (
       <CheckboxGroup v-model:value={state.colmunSelectKeys} class="checkboxGroup-settings" options={options} />
-    )
+    );
   }
 
   watch(() => state.colmunSelectKeys, (val) => {
     tableOption.column.forEach((item) => {
       if (item.prop !== 'operation') {
-        item.colHide = item.hide || !val.includes(item.prop as string)
+        item.colHide = item.hide || !val.includes(item.prop as string);
       }
-    })
+    });
   });
 
-  const formType = toRef(state, 'formType')
+  const formType = toRef(state, 'formType');
 
   expose({
     formRef,
@@ -372,7 +378,7 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     rowEdit,
     rowView,
     formType,
-  })
+  });
 
   return {
     formRef,
@@ -392,5 +398,6 @@ export function useTable(props: Props, { emit, slots, expose }: SetupContext<typ
     afterClose,
     getMenu,
     getColumnSettings,
-  }
+    onSelectChange,
+  };
 }

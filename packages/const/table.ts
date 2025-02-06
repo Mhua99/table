@@ -1,6 +1,6 @@
-import type { PaginationProps } from 'ant-design-vue'
-import type { PropType } from 'vue'
-import type { AlignType, CommObj, FormType, TableOption } from '~/types'
+import type { PaginationProps } from 'ant-design-vue';
+import type { PropType } from 'vue';
+import type { AlignType, CommObj, FormType, TableOption } from '~/types';
 
 export const props = {
   /** 表单数据 */
@@ -10,7 +10,7 @@ export const props = {
   },
   /** 表格数据 */
   data: {
-    type: Array,
+    type: Array as PropType<CommObj[]>,
     default: () => ([]),
   },
   /** 配置项 */
@@ -26,22 +26,30 @@ export const props = {
   pagination: {
     type: Object as PropType<PaginationProps>,
   },
+  /** 搜索表单数据 */
   searchForm: {
     type: Object as PropType<CommObj>,
     default: () => ({}),
   },
+  /** 表单打开之前事件 */
   beforeOpen: {
     type: Function as PropType<(formType: FormType, done: () => void) => void>,
   },
+  /** 表格数据加载状态 */
   loading: {
     type: Boolean as PropType<boolean>,
     default: false,
   },
+  selectedRowKeys: {
+    type: Array as PropType<string[] | number[]>,
+    default: () => ([]),
+  },
 };
 
-export const emits = ['update:modelValue', 'update:searchForm', 'search', 'empty', 'submit', 'delete', 'refresh', 'pageSizeChange']
+export const emits = ['update:modelValue', 'update:searchForm', 'search', 'empty', 'submit', 'delete', 'refresh', 'pageSizeChange', 'selectChange'];
 
 export const baseOption: Omit<TableOption<object>, 'column'> = {
+  rowKey: 'id',
   addBtn: true,
   editBtn: true,
   delBtn: true,
@@ -61,7 +69,8 @@ export const baseOption: Omit<TableOption<object>, 'column'> = {
   height: 500,
   tableX: 0,
   align: 'center',
-}
+  selection: false,
+};
 
 export const defaultMenuOption = {
   prop: 'operation',
@@ -70,10 +79,10 @@ export const defaultMenuOption = {
   align: 'center' as AlignType,
   fixed: 'right',
   sort: -1,
-}
+};
 
 export const pagination = {
   total: 0,
   showSizeChanger: true,
   showTotal: (total: number) => `共${total}条`,
-}
+};
